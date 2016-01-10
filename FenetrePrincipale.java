@@ -75,11 +75,13 @@ public class FenetrePrincipale extends JFrame implements MouseListener
 			pionAllie = 2;
 			pionEnnemi = 1;
 		}
-		//System.out.println("Allies : "+pionAllie+" Ennemis : "+pionEnnemi);
+		// Un compteur de pion pour chaque "ligne" possible
 		int ligneAllieeHor = 1;
 		int ligneAllieeVer = 1;
 		int ligneAllieeDiag1 = 1;
 		int ligneAllieeDiag2 = 1;
+		// Chaque Offset designe une case autour de la case de base
+		// Exemple : Dans le cas ou la direction vaut 0, on prendra les coordonnees de la case du dessus
 		int offsetX =0, offsetY=0;
 		for (int dir=0; dir < 8; dir++)
 		{
@@ -109,7 +111,6 @@ public class FenetrePrincipale extends JFrame implements MouseListener
 					offsetY = -1; offsetX = -1;
 					break;
 			}
-			//System.out.println("Direction : " + dir);
 			if (bernard[caseX + offsetX][caseY + offsetY] != 0)
 			{
 				int nombreAllie = 0;
@@ -132,17 +133,22 @@ public class FenetrePrincipale extends JFrame implements MouseListener
 				// Detection des convertions
 				if (nombreEnnemi == 2 && bernard[caseX + offsetX*tour][caseY + offsetY*tour] == pionAllie)
 				{
+					// Les bonnes cases de Bernard sont converties
 					System.out.println("CONVERTION !!");
-					for (int i = 1; i <= 2; i++)
-					{
-						System.out.println((caseX + offsetX*i) + ", "+(caseY + offsetY*i));
-						bernard[caseX + offsetX*i][caseY + offsetY*i] = pionAllie;
-						Pion pionNew = new Pion(tourJoueur, (caseY + offsetX*i)*20, (caseY + offsetY*i)*20);
-						setContentPane(pionNew);
-						setVisible(true);
-						
-					}
+					System.out.println((caseX + offsetX) + ", "+(caseY + offsetY));
+					bernard[caseX + offsetX][caseY + offsetY] = pionAllie;
+					bernard[caseX + offsetX*2][caseY + offsetY*2] = pionAllie;
+					// Mais a chaque fois, un seul pion se fait remplacer
+					Pion pionNew = new Pion(tourJoueur, (caseX + offsetX), (caseY + offsetY));
+					//pionNew.changePion((caseX + offsetX)*2, (caseY + offsetY)*2);
+					//pionNew.changePion(caseX + offsetX*2, caseY + offsetY*2);
+					setContentPane(pionNew);
+					setVisible(true);
+					Pion pionNew2 = new Pion(tourJoueur, (caseX + offsetX*2)*20, (caseY + offsetY*2)*20);
+					setContentPane(pionNew2);
+					setVisible(true);
 				}
+				// On ajoute le nombre de pions trouves selon la ligne ou on se situe
 				switch(dir) {
 				case 0 : case 4 :
 					ligneAllieeVer += nombreAllie;

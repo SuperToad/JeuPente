@@ -43,4 +43,13 @@ public class Pion extends JPanel
 	{
 		g.drawImage(imgPion, xPion, yPion, null);
 	}
+	
+	public void changePion(int posX, int posY)
+	{
+		if(xPion == posX && yPion == posY)
+		{
+			Graphics g = this.getGraphics();
+			g.dispose();
+		}
+	}
 }
