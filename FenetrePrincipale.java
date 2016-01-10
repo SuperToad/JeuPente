@@ -135,16 +135,14 @@ public class FenetrePrincipale extends JFrame implements MouseListener
 				{
 					// Les bonnes cases de Bernard sont converties
 					System.out.println("CONVERTION !!");
-					System.out.println((caseX + offsetX) + ", "+(caseY + offsetY));
+					System.out.println((caseX + offsetX*tour) + ", "+(caseY + offsetY*tour));
 					bernard[caseX + offsetX][caseY + offsetY] = pionAllie;
 					bernard[caseX + offsetX*2][caseY + offsetY*2] = pionAllie;
 					// Mais a chaque fois, un seul pion se fait remplacer
-					Pion pionNew = new Pion(tourJoueur, (caseX + offsetX), (caseY + offsetY));
-					//pionNew.changePion((caseX + offsetX)*2, (caseY + offsetY)*2);
-					//pionNew.changePion(caseX + offsetX*2, caseY + offsetY*2);
+					Pion pionNew = new Pion(tourJoueur, (caseX + offsetX*(tour-2))*20, (caseY + offsetY*(tour-2))*20);
 					setContentPane(pionNew);
 					setVisible(true);
-					Pion pionNew2 = new Pion(tourJoueur, (caseX + offsetX*2)*20, (caseY + offsetY*2)*20);
+					Pion pionNew2 = new Pion(tourJoueur, (caseX + offsetX*(tour-1))*20, (caseY + offsetY*(tour-1))*20);
 					setContentPane(pionNew2);
 					setVisible(true);
 				}
