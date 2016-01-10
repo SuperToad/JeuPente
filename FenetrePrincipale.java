@@ -24,7 +24,7 @@ public class FenetrePrincipale extends JFrame implements MouseListener
 		tourJoueur = true;
 		for (int x = 0; x < 18; x++)
 			for (int y = 0; y < 18; y++)
-			bernard[x][y] = 0;
+				bernard[x][y] = 0;
 	}
 	
 	//Méthode appelée lors du clic de souris
@@ -35,23 +35,30 @@ public class FenetrePrincipale extends JFrame implements MouseListener
 		int y=(event.getY() - 30);
 		int caseX = x-(x%20);
 		int caseY = y-(y%20);
-		System.out.println(caseX/20 + ", " +caseY/20);
-		if (bernard[caseX/20][caseY/20] == 0)
+		caseX /= 20;
+		caseY /= 20;
+		System.out.println(caseX + ", " +caseY);
+		if (caseX !=0 && caseY != 0)
 		{
-			if(tourJoueur)
+			if (bernard[caseX][caseY] == 0)
 			{
-				tourJoueur = false;
-				bernard[caseX/20][caseY/20] = 1;
+				if(tourJoueur)
+				{
+					tourJoueur = false;
+					bernard[caseX][caseY] = 1;
+				}
+				else 
+				{
+					tourJoueur = true;
+					bernard[caseX][caseY] = 2;
+				}
+				// Creation graphique du pion
+				Pion pion = new Pion(tourJoueur, caseX*20, caseY*20);
+				setContentPane(pion);
+				setVisible(true);
+				// Verification conditions de convertion det de victoire
+				checkCase(caseX, caseY);
 			}
-			else 
-			{
-				tourJoueur = true;
-				bernard[caseX/20][caseY/20] = 2;
-			}
-			Pion pion = new Pion(tourJoueur, caseX, caseY);
-			setContentPane(pion);
-			setVisible(true);
-			checkCase(caseX/20, caseY/20);
 		}
 	}
 	
@@ -107,18 +114,35 @@ public class FenetrePrincipale extends JFrame implements MouseListener
 			{
 				int nombreAllie = 0;
 				int nombreEnnemi = 0;
-				int tour = 0;
-				do
+				int tour = 1;
+				// Detection de pions allies
+				while (bernard[caseX + offsetX*tour][caseY + offsetY*tour] == pionAllie)
 				{
-					System.out.println("Tour : " + tour);
-					if (bernard[caseX + offsetX*tour][caseY + offsetY*tour] == pionAllie)
-						nombreAllie++;
-					if (bernard[caseX + offsetX*tour][caseY + offsetY*tour] == pionEnnemi)
-						nombreEnnemi++;
+					nombreAllie++;
 					tour++;
 				}
-				while (bernard[caseX + offsetX*tour][caseY + offsetY*tour] != bernard[caseX + offsetX*(tour+1)][caseY + offsetY*(tour+1)]);
+				tour = 1;
+				//Detection de pions ennemis
+				while (bernard[caseX + offsetX*tour][caseY + offsetY*tour] == pionEnnemi)
+				{
+					nombreEnnemi++;
+					tour++;
+				}
 				System.out.println("Dir "+dir+" : Allies : "+nombreAllie+" Ennemis : "+nombreEnnemi);
+				// Detection des convertions
+				if (nombreEnnemi == 2 && bernard[caseX + offsetX*tour][caseY + offsetY*tour] == pionAllie)
+				{
+					System.out.println("CONVERTION !!");
+					for (int i = 1; i <= 2; i++)
+					{
+						System.out.println((caseX + offsetX*i) + ", "+(caseY + offsetY*i));
+						bernard[caseX + offsetX*i][caseY + offsetY*i] = pionAllie;
+						Pion pionNew = new Pion(tourJoueur, (caseY + offsetX*i)*20, (caseY + offsetY*i)*20);
+						setContentPane(pionNew);
+						setVisible(true);
+						
+					}
+				}
 				switch(dir) {
 				case 0 : case 4 :
 					ligneAllieeVer += nombreAllie;
@@ -134,6 +158,11 @@ public class FenetrePrincipale extends JFrame implements MouseListener
 					break;
 				}
 				System.out.println("Hor : "+ligneAllieeHor+" Ver : "+ligneAllieeVer);
+				// Detection de victoire
+				if (ligneAllieeVer >= 5 || ligneAllieeHor >= 5 || ligneAllieeDiag1 >= 5 || ligneAllieeDiag2 >= 5)
+				{
+					System.out.println("VICTOIRE !!");
+				}
 			}
 		}
 	}
