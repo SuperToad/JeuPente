@@ -56,7 +56,8 @@ public class FenetrePrincipale extends JFrame implements MouseListener, ActionLi
 				}
 				// Creation graphique du pion
 				Pion pion = new Pion(tourJoueur, caseX*20, caseY*20);
-				setContentPane(pion);
+				setLayout(new BorderLayout());
+				add(pion, BorderLayout.CENTER);
 				setVisible(true);
 				// Verification conditions de convertion det de victoire
 				checkCase(caseX, caseY);
@@ -148,10 +149,12 @@ public class FenetrePrincipale extends JFrame implements MouseListener, ActionLi
 					bernard[caseX + offsetX*2][caseY + offsetY*2] = pionAllie;
 					// Mais a chaque fois, un seul pion se fait remplacer
 					Pion pionNew = new Pion(tourJoueur, (caseX + offsetX*(tour-2))*20, (caseY + offsetY*(tour-2))*20);
-					setContentPane(pionNew);
+					setLayout(new BorderLayout());
+					add(pionNew, BorderLayout.CENTER);
 					setVisible(true);
 					Pion pionNew2 = new Pion(tourJoueur, (caseX + offsetX*(tour-1))*20, (caseY + offsetY*(tour-1))*20);
-					setContentPane(pionNew2);
+					setLayout(new BorderLayout());
+					add(pionNew2, BorderLayout.CENTER);
 					setVisible(true);
 				}
 				// On ajoute le nombre de pions trouves selon la ligne ou on se situe
