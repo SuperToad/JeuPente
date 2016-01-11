@@ -185,20 +185,25 @@ public class FenetrePrincipale extends JFrame implements MouseListener, ActionLi
 		// Detection de victoire
 		if (ligneAllieeVer >= 5 || ligneAllieeHor >= 5 || ligneAllieeDiag1 >= 5 || ligneAllieeDiag2 >= 5 || convertions >= 5)
 		{
-			JOptionPane victoire = new JOptionPane();
-			if(tourJoueur)
-			{
-				victoire.showMessageDialog(null, "Victoire du joueur 2 !", "Fin de partie", JOptionPane.INFORMATION_MESSAGE);
-			}
-			else
-			{
-				victoire.showMessageDialog(null, "Victoire du joueur 1 !", "Fin de partie", JOptionPane.INFORMATION_MESSAGE);
-			}
+			afficherVictoire();
 		}
 		if (!tourJoueur)
 			convertionsJ1 = convertions;
 		else
 			convertionsJ2 = convertions;
+	}
+	
+	public void afficherVictoire()
+	{
+		JOptionPane victoire = new JOptionPane();
+		if(tourJoueur)
+		{
+			victoire.showMessageDialog(null, "Victoire du joueur 2 !", "Fin de partie", JOptionPane.INFORMATION_MESSAGE);
+		}
+		else
+		{
+			victoire.showMessageDialog(null, "Victoire du joueur 1 !", "Fin de partie", JOptionPane.INFORMATION_MESSAGE);
+		}
 	}
 
   	//Méthode appelée lors du survol de la souris
