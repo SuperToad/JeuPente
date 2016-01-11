@@ -29,14 +29,14 @@ public class Quadrillage extends JPanel
 				g.drawImage(img, i*20, y*20, null);
 			}
 		}
-		char haha = 'A';
+		char lettre = 'A';
 		for (int j = 20; j<400; j+=20)
 		{
-			int lol = j/20;
-			String kek = String.valueOf(lol);
-			g.drawString(kek, 2, j+15);
-			g.drawString(Character.toString(haha), j+6, 15);
-			haha++;
+			int chiffre = j/20;
+			String string = String.valueOf(chiffre);
+			g.drawString(string, 2, j+15);
+			g.drawString(Character.toString(lettre), j+6, 15);
+			lettre++;
 		}
 	}
 }
