@@ -12,7 +12,7 @@ public class Quadrillage extends JPanel
 	{
 		try
 		{
-			img = ImageIO.read(new File("carre.png"));
+			img = ImageIO.read(new File("croix.png"));
 		}
 		catch(IOException e)
 		{

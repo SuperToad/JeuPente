@@ -1,11 +1,13 @@
 import java.awt.*;
 import javax.swing.*;
+import java.awt.event.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import javax.swing.JOptionPane;
 
-public class FenetrePrincipale extends JFrame implements MouseListener
+public class FenetrePrincipale extends JFrame implements MouseListener, ActionListener
 {
 	Quadrillage quadrillage;
 	boolean tourJoueur;
@@ -24,7 +26,7 @@ public class FenetrePrincipale extends JFrame implements MouseListener
 		tourJoueur = true;
 		for (int x = 0; x < 18; x++)
 			for (int y = 0; y < 18; y++)
-				bernard[x][y] = 0;
+				bernard[x][y] = 0;		
 	}
 	
 	//Méthode appelée lors du clic de souris
@@ -38,7 +40,7 @@ public class FenetrePrincipale extends JFrame implements MouseListener
 		caseX /= 20;
 		caseY /= 20;
 		System.out.println(caseX + ", " +caseY);
-		if (caseX !=0 && caseY != 0)
+		if (caseX !=0 && caseY != 0 && caseX !=20 && caseY != 20)
 		{
 			if (bernard[caseX][caseY] == 0)
 			{
@@ -60,6 +62,12 @@ public class FenetrePrincipale extends JFrame implements MouseListener
 				checkCase(caseX, caseY);
 			}
 		}
+	}
+	
+	public void actionPerformed(ActionEvent evenement)
+	{
+		if(evenement.getActionCommand().equals("menu_quitter"))
+			System.out.println("MENU QUITTER");
 	}
 	
 	public void checkCase(int caseX, int caseY)
@@ -165,7 +173,15 @@ public class FenetrePrincipale extends JFrame implements MouseListener
 				// Detection de victoire
 				if (ligneAllieeVer >= 5 || ligneAllieeHor >= 5 || ligneAllieeDiag1 >= 5 || ligneAllieeDiag2 >= 5)
 				{
-					System.out.println("VICTOIRE !!");
+					JOptionPane victoire = new JOptionPane();
+					if(tourJoueur)
+					{
+						victoire.showMessageDialog(null, "Le joueur 1 a gagné !", "Fin de partie", JOptionPane.INFORMATION_MESSAGE);
+					}
+					else
+					{
+						victoire.showMessageDialog(null, "Le joueur 2 a gagné !", "Fin de partie", JOptionPane.INFORMATION_MESSAGE);
+					}
 				}
 			}
 		}
