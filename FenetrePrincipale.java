@@ -12,7 +12,7 @@ public class FenetrePrincipale extends JFrame implements MouseListener, ActionLi
 	Quadrillage quadrillage;
 	boolean tourJoueur;
 	int convertionsJ1, convertionsJ2;
-	int [][] bernard = new int[21][21];
+	int [][] tab = new int[21][21];
 	FenetrePrincipale(String s)
 	{
 		super(s);
@@ -29,7 +29,7 @@ public class FenetrePrincipale extends JFrame implements MouseListener, ActionLi
 		convertionsJ2 = 0;
 		for (int x = 0; x < 18; x++)
 			for (int y = 0; y < 18; y++)
-				bernard[x][y] = 0;		
+				tab[x][y] = 0;		
 	}
 	
 	//Méthode appelée lors du clic de souris
@@ -45,17 +45,17 @@ public class FenetrePrincipale extends JFrame implements MouseListener, ActionLi
 		System.out.println(caseX + ", " +caseY);
 		if (caseX !=0 && caseY != 0 && caseX !=20 && caseY != 20)
 		{
-			if (bernard[caseX][caseY] == 0)
+			if (tab[caseX][caseY] == 0)
 			{
 				if(tourJoueur)
 				{
 					tourJoueur = false;
-					bernard[caseX][caseY] = 1;
+					tab[caseX][caseY] = 1;
 				}
 				else 
 				{
 					tourJoueur = true;
-					bernard[caseX][caseY] = 2;
+					tab[caseX][caseY] = 2;
 				}
 				// Creation graphique du pion
 				Pion pion = new Pion(tourJoueur, caseX*20, caseY*20);
@@ -126,32 +126,32 @@ public class FenetrePrincipale extends JFrame implements MouseListener, ActionLi
 					offsetY = -1; offsetX = -1;
 					break;
 			}
-			if (bernard[caseX + offsetX][caseY + offsetY] != 0)
+			if (tab[caseX + offsetX][caseY + offsetY] != 0)
 			{
 				int nombreAllie = 0;
 				int nombreEnnemi = 0;
 				int tour = 1;
 				// Detection de pions allies
-				while (bernard[caseX + offsetX*tour][caseY + offsetY*tour] == pionAllie)
+				while (tab[caseX + offsetX*tour][caseY + offsetY*tour] == pionAllie)
 				{
 					nombreAllie++;
 					tour++;
 				}
 				tour = 1;
 				//Detection de pions ennemis
-				while (bernard[caseX + offsetX*tour][caseY + offsetY*tour] == pionEnnemi)
+				while (tab[caseX + offsetX*tour][caseY + offsetY*tour] == pionEnnemi)
 				{
 					nombreEnnemi++;
 					tour++;
 				}
 				System.out.println("Dir "+dir+" : Allies : "+nombreAllie+" Ennemis : "+nombreEnnemi);
 				// Detection des convertions
-				if (nombreEnnemi == 2 && bernard[caseX + offsetX*tour][caseY + offsetY*tour] == pionAllie)
+				if (nombreEnnemi == 2 && tab[caseX + offsetX*tour][caseY + offsetY*tour] == pionAllie)
 				{
-					// Les cases de Bernard sont converties
+					// Les cases de tab sont converties
 					System.out.println("CONVERTION !!");
-					bernard[caseX + offsetX][caseY + offsetY] = pionAllie;
-					bernard[caseX + offsetX*2][caseY + offsetY*2] = pionAllie;
+					tab[caseX + offsetX][caseY + offsetY] = pionAllie;
+					tab[caseX + offsetX*2][caseY + offsetY*2] = pionAllie;
 					// On ajoute les nouveau pions au dessus des anciens
 					Pion pionNew = new Pion(tourJoueur, (caseX + offsetX*(tour-2))*20, (caseY + offsetY*(tour-2))*20);
 					setLayout(new BorderLayout());
