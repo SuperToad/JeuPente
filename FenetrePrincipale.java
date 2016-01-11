@@ -11,6 +11,7 @@ public class FenetrePrincipale extends JFrame implements MouseListener, ActionLi
 {
 	Quadrillage quadrillage;
 	boolean tourJoueur;
+	int convertionsJ1, convertionsJ2;
 	int [][] bernard = new int[21][21];
 	FenetrePrincipale(String s)
 	{
@@ -24,6 +25,8 @@ public class FenetrePrincipale extends JFrame implements MouseListener, ActionLi
 		setVisible(true);
 		this.addMouseListener(this);
 		tourJoueur = true;
+		convertionsJ1 = 0;
+		convertionsJ2 = 0;
 		for (int x = 0; x < 18; x++)
 			for (int y = 0; y < 18; y++)
 				bernard[x][y] = 0;		
@@ -74,15 +77,18 @@ public class FenetrePrincipale extends JFrame implements MouseListener, ActionLi
 	public void checkCase(int caseX, int caseY)
 	{
 		int pionAllie, pionEnnemi;
+		int convertions;
 		if (!tourJoueur)
 		{
 			pionAllie = 1;
 			pionEnnemi = 2;
+			convertions = convertionsJ1;
 		}
 		else
 		{
 			pionAllie = 2;
 			pionEnnemi = 1;
+			convertions = convertionsJ2;
 		}
 		// Un compteur de pion pour chaque "ligne" possible
 		int ligneAllieeHor = 1;
@@ -142,20 +148,21 @@ public class FenetrePrincipale extends JFrame implements MouseListener, ActionLi
 				// Detection des convertions
 				if (nombreEnnemi == 2 && bernard[caseX + offsetX*tour][caseY + offsetY*tour] == pionAllie)
 				{
-					// Les bonnes cases de Bernard sont converties
+					// Les cases de Bernard sont converties
 					System.out.println("CONVERTION !!");
-					System.out.println((caseX + offsetX*tour) + ", "+(caseY + offsetY*tour));
 					bernard[caseX + offsetX][caseY + offsetY] = pionAllie;
 					bernard[caseX + offsetX*2][caseY + offsetY*2] = pionAllie;
-					// Mais a chaque fois, un seul pion se fait remplacer
+					// On ajoute les nouveau pions au dessus des anciens
 					Pion pionNew = new Pion(tourJoueur, (caseX + offsetX*(tour-2))*20, (caseY + offsetY*(tour-2))*20);
 					setLayout(new BorderLayout());
 					add(pionNew, BorderLayout.CENTER);
 					setVisible(true);
 					Pion pionNew2 = new Pion(tourJoueur, (caseX + offsetX*(tour-1))*20, (caseY + offsetY*(tour-1))*20);
-					setLayout(new BorderLayout());
+					//setLayout(new BorderLayout());
 					add(pionNew2, BorderLayout.CENTER);
 					setVisible(true);
+					
+					convertions++;
 				}
 				// On ajoute le nombre de pions trouves selon la ligne ou on se situe
 				switch(dir) {
@@ -173,21 +180,25 @@ public class FenetrePrincipale extends JFrame implements MouseListener, ActionLi
 					break;
 				}
 				System.out.println("Hor : "+ligneAllieeHor+" Ver : "+ligneAllieeVer);
-				// Detection de victoire
-				if (ligneAllieeVer >= 5 || ligneAllieeHor >= 5 || ligneAllieeDiag1 >= 5 || ligneAllieeDiag2 >= 5)
-				{
-					JOptionPane victoire = new JOptionPane();
-					if(tourJoueur)
-					{
-						victoire.showMessageDialog(null, "Le joueur 1 a gagné !", "Fin de partie", JOptionPane.INFORMATION_MESSAGE);
-					}
-					else
-					{
-						victoire.showMessageDialog(null, "Le joueur 2 a gagné !", "Fin de partie", JOptionPane.INFORMATION_MESSAGE);
-					}
-				}
 			}
 		}
+		// Detection de victoire
+		if (ligneAllieeVer >= 5 || ligneAllieeHor >= 5 || ligneAllieeDiag1 >= 5 || ligneAllieeDiag2 >= 5 || convertions >= 5)
+		{
+			JOptionPane victoire = new JOptionPane();
+			if(tourJoueur)
+			{
+				victoire.showMessageDialog(null, "Victoire du joueur 2 !", "Fin de partie", JOptionPane.INFORMATION_MESSAGE);
+			}
+			else
+			{
+				victoire.showMessageDialog(null, "Victoire du joueur 1 !", "Fin de partie", JOptionPane.INFORMATION_MESSAGE);
+			}
+		}
+		if (!tourJoueur)
+			convertionsJ1 = convertions;
+		else
+			convertionsJ2 = convertions;
 	}
 
   	//Méthode appelée lors du survol de la souris

@@ -10,12 +10,11 @@ public class Pion extends JPanel
 	private Image imgPion;
 	private int xPion;
 	private int yPion;
-	boolean couleur;
 	Pion(boolean couleur, int caseX, int caseY)
 	{
 		xPion = caseX;
 		yPion = caseY;
-		if(couleur == true)
+		if(couleur)
 		{
 			try
 			{
@@ -44,12 +43,4 @@ public class Pion extends JPanel
 		g.drawImage(imgPion, xPion, yPion, null);
 	}
 	
-	public void changePion(int posX, int posY)
-	{
-		if(xPion == posX && yPion == posY)
-		{
-			Graphics g = this.getGraphics();
-			g.dispose();
-		}
-	}
 }
